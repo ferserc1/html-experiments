@@ -140,9 +140,12 @@
                     range.value = time;
                     range.dispatchEvent(new Event('input'));
                 };
+
+                return range;
             }
 
-            createPlaybackBar({ container: document.getElementById('playbackBar') });
+            const playbackBar = createPlaybackBar({ container: document.getElementById('playbackBar') });
+            playbackBar.setCurrentTime(300);
         </script>
     
     </article>
