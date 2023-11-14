@@ -9,6 +9,10 @@
             font-family: system-ui;
         }
 
+        video {
+            width: 100%;
+        }
+
         .playback-bar {
             --playback-bar-height: 8px;
             --handler-height: 22px;
@@ -122,11 +126,13 @@
 <body>
     <article>
         <h1>Playback bar example</h1>
+        <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"></video>
+        <button>Play</button>
         <div id="playbackBar">
         </div>
 
         <script>
-            function createPlaybackBar({ container, duration = 1000, currentTime = 0 }) {
+            function createPlaybackBar({ container, duration = 1000, currentTime = 0, mediaElement = null }) {
                 container.classList.add('playback-bar');
                 const elapsed = document.createElement('div');
                 elapsed.className = 'elapsed';
@@ -149,19 +155,44 @@
 
                 updateRemaining();
 
-                range.addEventListener('input', updateRemaining);
+                range.addEventListener('input', () => {
+                    if (mediaElement) {
+                        mediaElement.currentTime = range.value;
+                    }
+                    updateRemaining();
+                });
 
                 range.setCurrentTime = (time) => {
                     range.value = time;
+                    if (mediaElement !== null) {
+                        mediaElement.currentTime = time;
+                    }
                     range.dispatchEvent(new Event('input'));
                 };
+
+                if (mediaElement !== null) {
+                    mediaElement.addEventListener('timeupdate', (evt) => {
+                        range.value = evt.target.currentTime;
+                        range.dispatchEvent(new Event('input'));
+                    });
+
+                    mediaElement.addEventListener('readystatechange', () => {
+                        if (mediaElement.readyState >= 3) {
+                            range.max = mediaElement.duration;
+                        }
+                    });
+                }
 
                 return range;
             }
 
+            const mediaElement = document.querySelector('video');
+            const button = document.querySelector('button');
+            button.addEventListener("click", () => mediaElement.play());
+
             const playbackBar = createPlaybackBar({
                 container: document.getElementById('playbackBar'),
-                duration: 1500
+                mediaElement
             });
             playbackBar.setCurrentTime(300);
         </script>
