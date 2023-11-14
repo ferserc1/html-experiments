@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Page</title>
+    <style>
+        section.modal-container > article {
+            display: grid;
+            grid-template-columns: 10px 1fr 10px;
+            grid-template-rows: 10px 1fr 10px;
+
+            position: fixed;
+            top: 40px;
+            left: 60px;
+            width: 250px;
+        }
+
+        section.modal-container > article > div.content {
+            background: white;
+            box-sizing: border-box;
+            padding: 20px;
+            height: 300px;
+            overflow: auto;
+        }
+
+        section.modal-container > article > div.nw-handler {
+            background: rgb(0, 214, 0);
+        }
+
+        section.modal-container > article > div.n-handler {
+            background: rgb(0, 180, 0);
+        }
+
+        section.modal-container > article > div.ne-handler {
+            background: rgb(0, 148, 0);
+        }
+
+        section.modal-container > article > div.w-handler {
+            background: rgb(0, 171, 214);
+        }
+
+        section.modal-container > article > div.e-handler {
+            background: rgb(0, 121, 214);
+        }
+
+        section.modal-container > article > div.sw-handler {
+            background: rgb(146, 0, 214);
+        }
+
+        section.modal-container > article > div.s-handler {
+            background: rgb(116, 0, 154);
+        }
+
+        section.modal-container > article > div.se-handler {
+            background: rgb(86, 0, 114);
+        }
+    </style>
+  </head>
+  <body>
+    <section class="modal-container">
+      <article>
+        <div class="nw-handler"></div>
+        <div class="n-handler"></div>
+        <div class="ne-handler"></div>
+        <div class="w-handler"></div>
+        <div class="content">
+            <h1>Modal</h1>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+              consectetur, ipsum quis aliquam tincidunt, velit dolor aliquet
+              tortor, eget ultricies diam ipsum eget lectus. Nulla facilisi.
+              Nullam euismod, nisl eget aliquam ultricies, nunc nisl
+              consectetur nunc, eget aliquam nisl nunc quis nunc. Nulla
+              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+              facilisi.
+            </p>
+            <button class="close-button">Close</button>
+        </div>
+        <div class="e-handler"></div>
+        <div class="sw-handler"></div>
+        <div class="s-handler"></div>
+        <div class="se-handler"></div>
+      </article>
+    </section>
+
+    <script>
+        const modal = document.querySelector('section.modal-container > article');
+        const content = modal.querySelector('div.content');
+
+        // Modal position:
+        modal.style.top = '170px';
+        modal.style.left = '150px';
+
+        // Modal size:
+        modal.style.width = '500px';
+        content.style.height = '290px';
+    </script>
+  </body>
+</html>
