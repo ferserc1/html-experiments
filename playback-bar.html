@@ -1,30 +1,39 @@
-
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <title>Range Test</title>
     <style>
+        body {
+            font-family: system-ui;
+        }
 
         .playback-bar {
             --playback-bar-height: 8px;
-            --handler-height: 14px;
-            --handler-width: 14px;
+            --handler-height: 22px;
+            --handler-width: 22px;
             --handler-color: white;
             --handler-border: 2px solid black;
             --handler-radius: 50%;
             --elapsed-color: red;
             --remaining-color: gray;
             --bar-radius: 10px;
+            --handler-shadow: 0 0 4px 0 rgb(0 0 0 / 40%);
             position: relative;
+            user-select: none;
         }
 
         .playback-bar:hover {
             --handler-color: cornflowerblue;
-            --handler-radius: 3px;
         }
 
-        .playback-bar > .elapsed {
+        .playback-bar:active {
+            --handler-color: rgb(81, 120, 193);
+            --handler-radius: 8px;
+        }
+
+        .playback-bar>.elapsed {
             position: absolute;
             top: 0px;
             left: 0px;
@@ -34,9 +43,10 @@
             background-color: var(--elapsed-color);
             border-start-start-radius: var(--bar-radius);
             border-end-start-radius: var(--bar-radius);
+            user-select: none;
         }
 
-        .playback-bar > .remaining {
+        .playback-bar>.remaining {
             position: absolute;
             top: 0px;
             right: 0px;
@@ -46,9 +56,10 @@
             background-color: var(--remaining-color);
             border-end-end-radius: var(--bar-radius);
             border-start-end-radius: var(--bar-radius);
+            user-select: none;
         }
 
-        .playback-bar > input[type=range] {
+        .playback-bar>input[type=range] {
             position: absolute;
             background: transparent;
             top: 0px;
@@ -59,15 +70,16 @@
             height: var(--playback-bar-height);
             z-index: 1;
             margin: 0;
+            user-select: none;
         }
 
         input[type=range] {
-          -webkit-appearance: none;
-          -moz-appearance: none;
-          appearance: none;
-          background: transparent;
-          cursor: pointer;
-          margin: 10px 0;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+            margin: 10px 0;
         }
 
         input[type=range]::-webkit-slider-thumb {
@@ -79,6 +91,7 @@
             border-radius: var(--handler-radius);
             margin-top: 0px;
             box-sizing: border-box;
+            box-shadow: var(--handler-shadow);
         }
 
         input[type=range]::-moz-range-thumb {
@@ -89,6 +102,7 @@
             border-radius: var(--handler-radius);
             margin-top: 0px;
             box-sizing: border-box;
+            box-shadow: var(--handler-shadow);
         }
 
         input[type=range]:focus {
@@ -102,11 +116,12 @@
         input[type=range]:focus::-moz-range-track {
             outline: none;
         }
-
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <article>
+        <h1>Playback bar example</h1>
         <div id="playbackBar">
         </div>
 
@@ -144,10 +159,14 @@
                 return range;
             }
 
-            const playbackBar = createPlaybackBar({ container: document.getElementById('playbackBar') });
+            const playbackBar = createPlaybackBar({
+                container: document.getElementById('playbackBar'),
+                duration: 1500
+            });
             playbackBar.setCurrentTime(300);
         </script>
-    
+
     </article>
-  </body>
+</body>
+
 </html>
