@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Range Test</title>
+    <style>
+
+        .playback-bar {
+            --playback-bar-height: 8px;
+            --handler-height: 14px;
+            --handler-width: 14px;
+            --handler-color: white;
+            --handler-border: 2px solid black;
+            --handler-radius: 50%;
+            --elapsed-color: red;
+            --remaining-color: gray;
+            --bar-radius: 10px;
+            position: relative;
+        }
+
+        .playback-bar:hover {
+            --handler-color: cornflowerblue;
+            --handler-radius: 3px;
+        }
+
+        .playback-bar > .elapsed {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            bottom: 0px;
+            width: 50%;
+            height: var(--playback-bar-height);
+            background-color: var(--elapsed-color);
+            border-start-start-radius: var(--bar-radius);
+            border-end-start-radius: var(--bar-radius);
+        }
+
+        .playback-bar > .remaining {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            width: 50%;
+            height: var(--playback-bar-height);
+            background-color: var(--remaining-color);
+            border-end-end-radius: var(--bar-radius);
+            border-start-end-radius: var(--bar-radius);
+        }
+
+        .playback-bar > input[type=range] {
+            position: absolute;
+            background: transparent;
+            top: 0px;
+            left: 0px;
+            bottom: 0px;
+            right: 0px;
+            width: 100%;
+            height: var(--playback-bar-height);
+            z-index: 1;
+            margin: 0;
+        }
+
+        input[type=range] {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          background: transparent;
+          cursor: pointer;
+          margin: 10px 0;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: var(--handler-width);
+            height: var(--handler-width);
+            background: var(--handler-color);
+            border: var(--handler-border);
+            border-radius: var(--handler-radius);
+            margin-top: 0px;
+            box-sizing: border-box;
+        }
+
+        input[type=range]::-moz-range-thumb {
+            width: var(--handler-width);
+            height: var(--handler-width);
+            background: var(--handler-color);
+            border: var(--handler-border);
+            border-radius: var(--handler-radius);
+            margin-top: 0px;
+            box-sizing: border-box;
+        }
+
+        input[type=range]:focus {
+            outline: none;
+        }
+
+        input[type=range]:focus::-webkit-slider-runnable-track {
+            outline: none;
+        }
+
+        input[type=range]:focus::-moz-range-track {
+            outline: none;
+        }
+
+    </style>
+  </head>
+  <body>
+    <article>
+        <div id="playbackBar">
+        </div>
+
+        <script>
+            function createPlaybackBar({ container, duration = 1000, currentTime = 0 }) {
+                container.classList.add('playback-bar');
+                const elapsed = document.createElement('div');
+                elapsed.className = 'elapsed';
+                container.appendChild(elapsed);
+                const remaining = document.createElement('div');
+                remaining.className = 'remaining';
+                container.appendChild(remaining);
+                const range = document.createElement('input');
+                range.type = 'range';
+                range.min = 0;
+                range.max = duration;
+                range.value = currentTime;
+                container.appendChild(range);
+
+                const updateRemaining = () => {
+                    const position = range.value / range.max * 100;
+                    elapsed.style.width = `${position}%`;
+                    remaining.style.width = `${100 - position}%`;
+                };
+
+                updateRemaining();
+
+                range.addEventListener('input', updateRemaining);
+
+                range.setCurrentTime = (time) => {
+                    range.value = time;
+                    range.dispatchEvent(new Event('input'));
+                };
+            }
+
+            createPlaybackBar({ container: document.getElementById('playbackBar') });
+        </script>
+    
+    </article>
+  </body>
+</html>
