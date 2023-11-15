@@ -13,8 +13,16 @@
             width: 100%;
         }
 
+        div.toolbar {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            gap: 10px;
+            align-items: stretch;
+        }
+
         .playback-bar {
-            --playback-bar-height: 8px;
+            --playback-bar-height: 5px;
             --handler-height: 22px;
             --handler-width: 22px;
             --handler-color: white;
@@ -26,6 +34,8 @@
             --handler-shadow: 0 0 4px 0 rgb(0 0 0 / 40%);
             position: relative;
             user-select: none;
+            flex-grow: 1;
+            margin-top: calc(var(--handler-height) / 2 - var(--playback-bar-height) / 2);
         }
 
         .playback-bar:hover {
@@ -127,8 +137,9 @@
     <article>
         <h1>Playback bar example</h1>
         <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"></video>
-        <button>Play</button>
-        <div id="playbackBar">
+        <div class="toolbar">
+            <button>Play</button>
+            <div id="playbackBar"></div>
         </div>
 
         <script>
@@ -156,6 +167,21 @@
                 updateRemaining();
 
                 range.addEventListener('input', () => {
+                    updateRemaining();
+                });
+
+                let seeking = false;
+                range.addEventListener('mousedown', () => {
+                    seeking = true;
+                    range.setPointerCapture(1);
+                });
+
+                range.addEventListener('mouseup', () => {
+                    seeking = false;
+                    range.releasePointerCapture(1);
+                });
+                
+                range.addEventListener('change', () => {
                     if (mediaElement) {
                         mediaElement.currentTime = range.value;
                     }
@@ -164,21 +190,22 @@
 
                 range.setCurrentTime = (time) => {
                     range.value = time;
-                    if (mediaElement !== null) {
-                        mediaElement.currentTime = time;
-                    }
-                    range.dispatchEvent(new Event('input'));
+                    range.dispatchEvent(new Event('change'));
                 };
 
                 if (mediaElement !== null) {
                     mediaElement.addEventListener('timeupdate', (evt) => {
+                        if (seeking) {
+                            return;
+                        }
                         range.value = evt.target.currentTime;
                         range.dispatchEvent(new Event('input'));
                     });
 
-                    mediaElement.addEventListener('readystatechange', () => {
-                        if (mediaElement.readyState >= 3) {
+                    mediaElement.addEventListener('loadeddata', () => {
+                        if (mediaElement.readyState >= 2) {
                             range.max = mediaElement.duration;
+                            updateRemaining();
                         }
                     });
                 }
@@ -188,7 +215,16 @@
 
             const mediaElement = document.querySelector('video');
             const button = document.querySelector('button');
-            button.addEventListener("click", () => mediaElement.play());
+            button.addEventListener("click", () => {
+                if (mediaElement.paused) {
+                    mediaElement.play();
+                    button.innerText = "Pause";
+                }
+                else {
+                    mediaElement.pause();
+                    button.innerText = "Play";
+                }
+            });
 
             const playbackBar = createPlaybackBar({
                 container: document.getElementById('playbackBar'),
