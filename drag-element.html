@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Page</title>
+    <style>
+        div {
+            position: fixed;
+            width: 90px;
+            height: 90px;
+            background: lightgreen;
+            box-sizing: border-box;
+            border-radius: 15px;
+            overflow: hidden;
+            padding: 20px;
+            text-align: center;
+            user-select: none;
+        }
+
+    </style>
+  </head>
+  <body>
+    <div id="box">Hello, World!</div>
+  </body>
+  <script>
+    const box = document.getElementById("box");
+    box.addEventListener("pointerdown", evt => {
+        box._downPos = { x: evt.clientX, y: evt.clientY }
+        box.setPointerCapture(evt.pointerId);
+    });
+
+    box.addEventListener("mousemove", evt => {
+        if (box._downPos) {
+            const offset = {
+                x: box._downPos.x - evt.clientX,
+                y: box._downPos.y - evt.clientY
+            }
+            const pos = {
+                x: box.offsetLeft - offset.x,
+                y: box.offsetTop - offset.y
+            }
+            if (pos.x > 0 && pos.x + box.offsetWidth < window.innerWidth) {
+                box.style.left = (box.offsetLeft - offset.x) + 'px';
+            }
+            if (pos.y > 0 && pos.y + box.offsetHeight < window.innerHeight) {
+                box.style.top = (box.offsetTop - offset.y) + 'px';
+            }
+            box._downPos = { x: evt.clientX, y: evt.clientY };
+        }
+    });
+
+    box.addEventListener("pointerup", evt => {
+        box.releasePointerCapture(evt.pointerId);
+        box._downPos = null;
+    });
+</script>
+</html>
