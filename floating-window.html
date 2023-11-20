@@ -6,7 +6,7 @@
         section.modal-container > article {
             display: grid;
             grid-template-columns: 10px 1fr 10px;
-            grid-template-rows: 10px 1fr 10px;
+            grid-template-rows: 35px 1fr 10px;
 
             position: fixed;
             top: 40px;
@@ -18,7 +18,6 @@
             background: white;
             box-sizing: border-box;
             padding: 20px;
-            height: 300px;
             overflow: auto;
         }
 
@@ -28,6 +27,13 @@
 
         section.modal-container > article > div.n-handler {
             background: rgb(0, 180, 0);
+        }
+
+        section.modal-container > article > div.n-handler > h1 {
+            padding: 7px;
+            margin: 0;
+            pointer-events: none;
+            user-select: none;
         }
 
         section.modal-container > article > div.ne-handler {
@@ -56,52 +62,190 @@
     </style>
   </head>
   <body>
-    <section class="modal-container">
-      <article>
-        <div class="nw-handler"></div>
-        <div class="n-handler"></div>
-        <div class="ne-handler"></div>
-        <div class="w-handler"></div>
-        <div class="content">
-            <h1>Modal</h1>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-              consectetur, ipsum quis aliquam tincidunt, velit dolor aliquet
-              tortor, eget ultricies diam ipsum eget lectus. Nulla facilisi.
-              Nullam euismod, nisl eget aliquam ultricies, nunc nisl
-              consectetur nunc, eget aliquam nisl nunc quis nunc. Nulla
-              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
-              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
-              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
-              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
-              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
-              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
-              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
-              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
-              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
-              facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
-              facilisi.
-            </p>
-            <button class="close-button">Close</button>
-        </div>
-        <div class="e-handler"></div>
-        <div class="sw-handler"></div>
-        <div class="s-handler"></div>
-        <div class="se-handler"></div>
-      </article>
-    </section>
+
+    <div class="content">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+            consectetur, ipsum quis aliquam tincidunt, velit dolor aliquet
+            tortor, eget ultricies diam ipsum eget lectus. Nulla facilisi.
+            Nullam euismod, nisl eget aliquam ultricies, nunc nisl
+            consectetur nunc, eget aliquam nisl nunc quis nunc. Nulla
+            facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+            facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+            facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+            facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+            facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+            facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+            facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+            facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+            facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+            facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+            facilisi.
+        </p>
+        <button class="close-button">Close</button>
+    </div>
 
     <script>
-        const modal = document.querySelector('section.modal-container > article');
-        const content = modal.querySelector('div.content');
+        
+        function createWindow(content) {
+            const modalContainer = document.createElement('section');
+            modalContainer.className = 'modal-container';
+            document.body.appendChild(modalContainer);
 
-        // Modal position:
-        modal.style.top = '170px';
-        modal.style.left = '150px';
+            const modalWindow = document.createElement('article');
+            modalContainer.appendChild(modalWindow);
 
-        // Modal size:
-        modal.style.width = '500px';
-        content.style.height = '290px';
+            function handleDrag(evt) {
+                if (!evt.target.downPosition) {
+                    return;
+                }
+
+                const offset = {
+                    x: evt.clientX - evt.target.downPosition.x,
+                    y: evt.clientY - evt.target.downPosition.y
+                }
+                evt.target.downPosition = { x: evt.clientX, y: evt.clientY };
+                const size = modalWindow.getSize();
+                const position = modalWindow.getPosition();
+                switch (evt.target.className) {
+                    case 'nw-handler':
+                        modalWindow.setPosition(
+                            position.left + offset.x,
+                            position.top + offset.y
+                        );
+                        modalWindow.setSize(
+                            size.width - offset.x,
+                            size.height - offset.y
+                        );
+                        break;
+                    case 'n-handler':
+                        modalWindow.setPosition(
+                            position.left + offset.x,
+                            position.top + offset.y
+                        );
+                        break;
+                    case 'ne-handler':
+                        modalWindow.setPosition(
+                            position.left,
+                            position.top + offset.y
+                        );
+                        modalWindow.setSize(
+                            size.width + offset.x,
+                            size.height - offset.y
+                        );
+                        break;
+                    case 'w-handler':
+                        modalWindow.setPosition(
+                            position.left + offset.x,
+                            position.top
+                        );
+                        modalWindow.setSize(
+                            size.width - offset.x,
+                            size.height
+                        );
+                        break;
+                    case 'e-handler':
+                        modalWindow.setSize(
+                            size.width + offset.x,
+                            size.height
+                        );
+                        break;
+                    case 'sw-handler':
+                        modalWindow.setPosition(
+                            position.left + offset.x,
+                            position.top
+                        )
+                        modalWindow.setSize(
+                            size.width - offset.x,
+                            size.height + offset.y
+                        );
+                        break;
+                    case 's-handler':
+                        modalWindow.setSize(
+                            size.width,
+                            size.height + offset.y
+                        );
+                        break;
+                    case 'se-handler':
+                        modalWindow.setSize(
+                            size.width + offset.x,
+                            size.height + offset.y
+                        );
+                        break;
+                    case 'content':
+                        break;
+                }
+            }
+
+            function handleDown(evt) {
+                evt.target.setPointerCapture(evt.pointerId);
+                evt.target.downPosition = { x: evt.clientX, y: evt.clientY };
+            }
+
+            function handleUp(evt) {
+                evt.target.releasePointerCapture(evt.pointerId);
+                evt.target.downPosition = null;
+            }
+
+            ['nw', 'n', 'ne', 'w', 'content', 'e', 'sw', 's', 'se'].forEach((direction) => {
+                const handler = document.createElement('div');
+                if (direction === 'content' || direction === 'title') {
+                    handler.className = direction;
+                } else {
+                    handler.className = `${direction}-handler`;
+                }
+                handler.addEventListener('pointerdown', handleDown);
+                handler.addEventListener('mousemove', handleDrag);
+                handler.addEventListener('pointerup', handleUp);
+                modalWindow.appendChild(handler);
+            });
+
+            modalWindow.querySelector('div.content').innerHTML = content.innerHTML;
+
+            modalWindow.setSize = function(width, height) {
+                const contentArea = modalWindow.querySelector('div.content');
+                modalWindow.style.width = `${width}px`;
+                contentArea.style.height = `${height}px`;
+            }
+
+            modalWindow.getSize = function() {
+                const contentArea = modalWindow.querySelector('div.content');
+                return {
+                    width: modalWindow.offsetWidth,
+                    height: contentArea.offsetHeight
+                }
+            }
+
+            modalWindow.setPosition = function(left, top) {
+                modalWindow.style.top = `${top}px`;
+                modalWindow.style.left = `${left}px`;
+            }
+
+            modalWindow.getPosition = function() {
+                const clientRect = modalWindow.getBoundingClientRect();
+                return {
+                    top: clientRect.top,
+                    left: clientRect.left
+                }
+            }
+
+            modalWindow.setTitle = function(title) {
+                modalWindow.querySelector('.n-handler').innerHTML = `<h1>${title}</h1>`;
+            }
+
+            if (content.parentElement) {
+                content.parentElement.removeChild(content);
+            }
+
+            return modalWindow;
+        }
+
+        const content = document.querySelector('div.content');
+        const modalWindow = createWindow(content);
+        //modalWindow.setSize(500, 300);
+        modalWindow.setPosition(100, 100);
+        modalWindow.setTitle('Modal window test');
+        
     </script>
   </body>
 </html>
