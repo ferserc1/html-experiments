@@ -5,32 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        .hidden {
-            display: none;
-        }
+        .push-navigator {
+            --navigation-duration: 100ms;
+            --background: #ccc;
+            --color: black;
+            --title-padding: 10px;
+            --border: 1px solid #ccc;
+            --page-background: white;
+            --page-color: black;
+            --container-border-radius: 7px;
+            --page-border-radius: 5px;
+            --page-margin: 4px;
 
-        #pageNavigator {
-            --navigation-duration: 500ms;
             width: 300px;
-            background-color: #ccc;
+            background-color: var(--background);
             overflow: hidden;
+            border-radius: var(--container-border-radius);
         }
 
-        #pageNavigator > .page-container {
+        .push-navigator > .page-container {
             box-sizing: border-box;
             background-color: white;
             padding: 10px;
             border: 1px solid #ccc;
             display: flex;
+            border-radius: var(--page-border-radius);
+            margin: var(--page-margin);
         }
 
-        #pageNavigator > .page-container > article {
+
+        .push-navigator > header {
+            padding: var(--title-padding);
+            display: flex;
+            gap: 10px;
+        }
+
+        .push-navigator > header > .title {
+            margin: 0;
+            color: var(--color);
+        }
+
+        .push-navigator > header > button.hidden {
+            display: none;
+        }
+
+        .push-navigator > .page-container > article {
             width: 100%;
             flex-shrink: 0;
             transition-duration: var(--navigation-duration);
         }
 
-        #pageNavigator > .page-container > article.out {
+        .push-navigator > .page-container > article.out {
             margin-left: -100%;
             transition-duration: var(--navigation-duration);
         }
@@ -38,30 +63,26 @@
     </style>
 </head>
 <body>
-    <section id="pageNavigator">
-        <header>
-            <h1>Navigator</h1>
-            <button id="prevButton"><</button>
-        </header>
-        <div class="page-container">
-            <article class="page-1">
-                <h1>Push Navigator Page 1</h1>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Et deleniti debitis temporibus! Voluptatum provident quae corporis distinctio quod nobis, dolorum expedita neque ipsam similique odit cumque, non sequi. Unde, modi.
-                </p>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Et deleniti debitis temporibus! Voluptatum provident quae corporis distinctio quod nobis, dolorum expedita neque ipsam similique odit cumque, non sequi. Unde, modi.
-                </p>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Et deleniti debitis temporibus! Voluptatum provident quae corporis distinctio quod nobis, dolorum expedita neque ipsam similique odit cumque, non sequi. Unde, modi.
-                </p>
+    <!-- 
+        Creamos unas páginas de muestra en HTML dentro de un elemento oculto, 
+        pero también podríamos crearlas con JS.
+    -->
+    <div style="display: none">
+        <article class="page-1">
+            <h1>Push Navigator Page 1</h1>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Et deleniti debitis temporibus! Voluptatum provident quae corporis distinctio quod nobis, dolorum expedita neque ipsam similique odit cumque, non sequi. Unde, modi.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Et deleniti debitis temporibus! Voluptatum provident quae corporis distinctio quod nobis, dolorum expedita neque ipsam similique odit cumque, non sequi. Unde, modi.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Et deleniti debitis temporibus! Voluptatum provident quae corporis distinctio quod nobis, dolorum expedita neque ipsam similique odit cumque, non sequi. Unde, modi.
+            </p>
 
-                <button class="next-button">></button>
-            </article>
-        </div>
-    </section>
+            <button class="next-button">></button>
+        </article>
 
-    <div class="hidden">
         <article class="page-2">
             <h1>Push Navigator Page 2</h1>
             <p>
@@ -92,72 +113,114 @@
     </div>
 
     <script>
-        const pageContainer = document.querySelector("#pageNavigator > .page-container");
+        const makePushNavigator = (initialPage, { title = "Pu sh Navigator", width = null, backButtonLabel = "<" } = {}) => {
+            const navigator = document.createElement("section");
+            navigator.className = "push-navigator";
+            navigator.innerHTML = `
+            <header>
+                <button class="prev-button">${backButtonLabel}</button>
+                <h1 class="title">${title}</h1>
+            </header>
+            <div class="page-container">`;
+            navigator.style.width = width ? `${width}px` : null;
+            const titleElem = navigator.querySelector("header > .title");
+            const prevButton = navigator.querySelector("header > .prev-button");
+            const pageContainer = navigator.querySelector(".page-container");
+            pageContainer.appendChild(initialPage);
 
-        const navigationDuration = () => {
-            const duration = getComputedStyle(document.querySelector('#pageNavigator')).getPropertyValue('--navigation-duration');
-            const resultMilliseconds = /([\d.]*)ms$/.exec(duration);
-            if (resultMilliseconds) {
-                return parseInt(resultMilliseconds[1]);
+            const navigationDuration = () => {
+                const duration = getComputedStyle(document.querySelector('.push-navigator')).getPropertyValue('--navigation-duration');
+                const resultMilliseconds = /([\d.]*)ms$/.exec(duration);
+                if (resultMilliseconds) {
+                    return parseInt(resultMilliseconds[1]);
+                }
+                const resultSeconds = /([\d.]*)s$/.exec(duration);
+                if (resultSeconds) {
+                    return parseFloat(resultSeconds[1]) * 1000;
+                }
             }
-            const resultSeconds = /([\d.]*)s$/.exec(duration);
-            if (resultSeconds) {
-                return parseFloat(resultSeconds[1]) * 1000;
-            }
-        }
 
-        let currentPage = pageContainer.children[0];
-        const pageStack = [];
-        const pushPage = (page) => {
-            pageStack.push(currentPage);
-            currentPage.classList.add("out");
-            pageContainer.appendChild(page);
-            setTimeout(() => {
-                currentPage.parentNode.removeChild(currentPage);
-                currentPage.classList.remove("out");
+            const checkButtonVisibility = () => {
+                if (pageStack.length === 0) {
+                    prevButton.classList.add("hidden");
+                } else {
+                    prevButton.classList.remove("hidden");
+                }
+            }
+
+            let currentPage = initialPage;
+            const pageStack = [];
+            navigator.pushPage = (page) => {
+                pageStack.push(currentPage);
+                currentPage.classList.add("out");
+                pageContainer.appendChild(page);
+                setTimeout(() => {
+                    currentPage.parentNode.removeChild(currentPage);
+                    currentPage.classList.remove("out");
+                    currentPage = page;
+                    checkButtonVisibility();
+                }, navigationDuration());
+            }
+
+            navigator.popPage = () => {
+                if (pageStack.length === 0) {
+                    return;
+                }
+                const page = pageStack.pop();
+                page.classList.add("out");
+                pageContainer.prepend(page);
+                const prevPage = currentPage;
                 currentPage = page;
-            }, navigationDuration());
-        }
 
-        const popPage = () => {
-            if (pageStack.length === 0) {
-                return;
+                setTimeout(() => page.classList.remove("out"), 10);
+                setTimeout(() => {
+                    prevPage.parentNode.removeChild(prevPage);
+                }, navigationDuration());
+                checkButtonVisibility();
             }
-            const page = pageStack.pop();
-            page.classList.add("out");
-            pageContainer.prepend(page);
-            const prevPage = currentPage;
-            currentPage = page;
 
-            setTimeout(() => page.classList.remove("out"), 10);
-            setTimeout(() => {
-                prevPage.parentNode.removeChild(prevPage);
-            }, navigationDuration());
+            navigator.setTitle = (title) => {
+                titleElem.textContent = title;
+            }
+
+            navigator.getTitle = () => {
+                return titleElem.innerText;
+            }
+
+            prevButton.addEventListener("click", () => {
+                navigator.popPage();
+            });
+
+            checkButtonVisibility();
+
+            return navigator;
         }
 
-        prevButton.addEventListener("click", () => {
-            popPage();
-        });
-
+        // Obtenemos las páginas del DOM, pero también podríamos construirlas con JS
         const page1 = document.querySelector('.page-1');
         const page2 = document.querySelector('.page-2');
         const page3 = document.querySelector('.page-3');
 
-        // Configurar los botones
+        // Creamos el navegador pasando la primera página
+        const navigator = makePushNavigator(page1, { title: "Navegador", width: 350 });
+        document.body.appendChild(navigator);
+
+        // Configuramos las acciones de los botones de navegación
         document.querySelector('.page-1 button').addEventListener("click", () => {
-            pushPage(page2);
+            navigator.pushPage(page2);
         });
 
         document.querySelector('.page-2 button').addEventListener("click", () => {
-            pushPage(page3);
+            navigator.pushPage(page3);
         });
 
         document.querySelector('.page-3 button').addEventListener("click", () => {
-            pushPage(page1);
+            navigator.pushPage(page1);
         });
 
-
-        
+        navigator.style.position = "absolute";
+        navigator.style.bottom = "10px";
+        navigator.style.right = "10px";
 
     </script>
 </body>
