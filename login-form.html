@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:wght@500&display=swap');
+
+        :root {
+            --grey-UPV-light: #5C6368;
+            --grey-UPV: #424A50;
+            --grey-UPV-dark: #3F4444;
+            --grey-dark: #5B5B5B;
+            --grey-medium: #CFCFCF;
+            --grey-light: #F1F1F1;
+            --black: #111111;
+            --white: #FFFFFF;
+            --red: #E5554F;
+            --red-dark: #D73333;
+            --red-darkest: #A40E0E;
+
+            --color-light: var(--grey-light);
+            --color-dark: var(--red-darkest);
+            --color-shadow: var(--grey-UPV-dark);
+            --color-highlight: var(--red);
+            --focus-outline: 5px solid var(--color-highlight);
+        }
+        
+        html {
+            margin: 0px 0px 0px 0px;
+            padding: 0px;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            margin: 0px 0px 0px 0px;
+            padding: 0px;
+            min-height: 100dvh;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            grid-template-areas: "header" "main" "footer";
+        }
+
+        h1,h2,h3,h4,h5,h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        h1 {
+            font-size: 70px;
+        }
+
+        h2 {
+            font-size: 50px;
+        }
+
+        h3 {
+            font-size: 34px;
+        }
+
+        p,input,select,button,a {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+
+        main {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        main:has(form.login-form) {
+            display: grid;
+            place-items: center;
+        }
+
+        /* Cabecera */
+        header {
+            display: flex;
+            flex-direction: column;
+        }
+
+        header > .header-title {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        header > .header-title i.logo {
+            display: block;
+            width: 170px;
+            height: 52px;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-image: url(https://www.upv.es/imagenes/svg/logo-upv.svg);
+        }
+
+        header > .header-title i.logo-mobile {
+            display: none;
+        }
+
+        header > .header-title > h1 {
+            font-family: "Inter", sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--black);
+        }
+
+        header > .header-title > div.slash {
+            display: block;
+            width: 2px;
+            height: 60px;
+            background-color: var(--grey-medium);
+            transform: rotate(30deg);
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+
+        nav.lang-selector {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            background-color: var(--grey-UPV-dark);
+            padding: 4px;
+        }
+
+        nav.lang-selector > a {
+            font-size: 1.2em;
+            text-decoration: none;
+            color: var(--grey-medium);
+            transition: all 200ms ease-in-out;
+            text-transform: uppercase;
+            font-size: 0.7em;
+        }
+
+        header > a {
+            margin: 20px;
+        }
+
+        header > nav.breadcrumbs {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 4px;
+            background-color: var(--grey-medium);
+        }
+
+        /* Formulario */
+        .login-form {
+            display: grid;
+            place-items: center;
+            width: 500px;
+            padding: 40px;
+            background-color: var(--color-light);
+            border-radius: 10px;
+            margin-bottom: 50px;
+        }
+
+        .login-form h2 {
+            color: var(--black);
+            font-size: 17px;
+            text-align: center;
+        }
+
+        .login-form form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            width: 80%
+        }
+
+        .login-form label {
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+            background-color: white;
+            width: 100%;
+            border-radius: 6px;
+            padding: 0px 0px 0px 10px;
+            box-sizing: border-box;
+            box-shadow: 0px 0px 3px 0px var(--color-shadow);
+            transition: all 200ms ease-in-out;
+        }
+
+        .login-form label > button {
+            background: var(--red-darkest);
+            border-radius: 0px 6px 6px 0px;
+            border: 0;
+            transition: all 150ms linear;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-form label > button:hover {
+            background: var(--red-dark);
+        }
+
+        .login-form label > button:active {
+            background: var(--red);
+        }
+
+        .login-form label > button:focus {
+            outline: 5px solid var(--color-highlight);
+            outline-offset: 2px;
+        }
+        
+        .login-form label > button svg {
+            stroke: white;
+            width: 50%;
+        }
+
+        .login-form label:has(input:focus,select:focus) {
+            outline: var(--focus-outline);
+        }
+
+        .login-form label:has(select) {
+            padding-right: 15px;
+        }
+
+        .login-form label > input,select {
+            background: transparent;
+            border: 0;
+            color: var(--color-dark);
+            flex-grow: 1;
+        }
+
+        .login-form label > input:focus,select:focus {
+            outline: 0;
+        }
+
+        .login-form label > svg {
+            width: 30px;
+            stroke: var(--color-dark);
+        }
+
+        .login-form form > button {
+            width: 100%;
+            padding: 5px 10px 5px 10px;
+            margin-top: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            border: 0;
+            background-color: var(--color-dark);
+            color: white;
+            box-shadow: 0px 0px 3px 0px var(--color-shadow);
+            transition: all 100ms ease-in-out;
+        }
+
+        .login-form form > button:hover {
+            transform: scale(1.01);
+        }
+
+        .login-form form > button:active {
+            transform: scale(0.99);
+        }
+
+        .login-form form > button:focus {
+            outline: var(--focus-outline);
+        }
+
+        .login-form form > button > svg {
+            width: 30px;
+            box-sizing: border-box;
+            stroke: white;
+        }
+
+        .login-form > hr {
+            width: 90%;
+            height: 1px;
+            border: 0px;
+            background-color: var(--grey-UPV-light);
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        /* Footer */
+        footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--grey-UPV-dark);
+        }
+
+        footer > .logo {
+            display: block;
+            width: 150px;
+            margin: 20px;
+        }
+
+        footer a,p,h1,h2,h3,h4,h5 {
+            color: white;
+        }
+
+        footer i > svg {
+            stroke: var(--red-dark);
+            width: 22px
+        }
+
+        footer aside {
+            display: flex;
+            gap: 30px;
+        }
+
+        footer aside > span {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--white);
+        }
+
+        @media (max-width: 600px) {
+            header > .header-title i.logo {
+                display: none;
+            }
+
+            header > .header-title i.logo-mobile {
+                display: block;
+                width: 100px;
+            }
+
+            header > .header-title > div.slash {
+                display: none;
+            }
+
+            main {
+                width: 100%;
+            }
+
+            section.login-form {
+                width: 100%;
+                border-radius: 0px;
+            }
+            
+            form {
+                width: 80%;
+            }
+
+            header > .header-title > h1 {
+                font-size: 14px;
+            }
+
+            footer aside {
+                flex-direction: column;
+                gap: 0px;
+            }
+            footer aside > span {
+                font-size: 10px;
+                gap: 2px;
+            }
+
+            footer aside > span > i > svg {
+                width: 15px;
+            }
+        }
+    </style>
+
+    <script>
+        function passwordToggleReveal() {
+            document.querySelectorAll('input.login-password').forEach(input => {
+                input.type = input.type === 'password' ? 'text' : 'password';
+            });
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <nav class="lang-selector" aria-label="Selección de idioma">
+            <a href="" aria-label="Valencià">Va</a>
+            <a href="" aria-label="Castellano">Es</a>
+        </nav>
+        <div class="header-title">
+            <a href="https://www.upv.es" alt="Página principal de la Universitat Politècnica de València">
+                <i class="logo"></i>
+                <i class="logo-mobile">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 812.37 285.47"><defs><style>.cls-1{fill:#cc5450;}</style></defs><g id="Capa_2" data-name="Capa 2"><g id="Capa_1-2" data-name="Capa 1"><path class="cls-1" d="M63.37,285.47H192c12.48-5,23.16-11.68,31.79-20.24Q255,234.27,255,167V0H179.33V156.67c0,8.43-.34,17-1,25.82a67.52,67.52,0,0,1-6,23.89A41.85,41.85,0,0,1,157,223.77q-10.29,6.66-29.3,6.68t-29.49-6.68a39.88,39.88,0,0,1-15.35-17.39,70.09,70.09,0,0,1-5.8-23.89c-.68-8.8-1-17.39-1-25.82V0H0V167q0,67.28,31.42,98.22C40.12,273.79,50.84,280.47,63.37,285.47Z"/><path class="cls-1" d="M379.28,285.47V192.61h45q49.29,0,75.5-25.23T526,96.32q0-45.9-26.2-71.09T424.31,0H303.2V285.47Zm0-225.09h25.24q41.91,0,41.92,35.94t-41.92,35.9H379.28Z"/><polygon class="cls-1" points="715.22 285.47 812.37 58.66 812.37 0 754.82 0 683.79 175.4 613.13 0 530.46 0 652.36 285.47 715.22 285.47"/></g></g></svg>
+                </i>
+            </a>
+            <div class="slash"></div>
+            <h1>Iniciar sesión</h1>
+        </div>
+        <nav class="breadcrumbs" aria-label="navegador"></nav>
+    </header>
+    <main>
+        <section class="login-form">
+            <form>
+                <h2>Introduzca su DNI/ID y clave</h2>
+                <label>
+                    <svg width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                    </svg>
+                    <input type="text" name="username" placeholder="DNI / ID*" autocomplete="username" required>
+                </label>
+                <label>
+                    <svg width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z" />
+                        <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" />
+                        <path d="M8 11v-4a4 4 0 1 1 8 0v4" />
+                    </svg>
+                    <input class="login-password" type="password" name="password" placeholder="PIN/Clave*" autocomplete="current-password" required>
+                    <button type="button" onclick="passwordToggleReveal()">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                            <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                        </svg>
+                    </button>
+                </label>
+                <label>
+                    <svg width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                        <path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1" />
+                        <path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                        <path d="M17 10h2a2 2 0 0 1 2 2v1" />
+                        <path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                        <path d="M3 13v-1a2 2 0 0 1 2 -2h2" />
+                    </svg>
+                    <select aria-placeholder="Colectivo" autocomplete="organization-title" required>
+                        <option value="0">Tipo de autenticación*</option>
+                        <hr/>
+                        <optgroup>
+                            <option value="1">Alumno</option>
+                            <option value="2">Personal</option>
+                            <option value="3">Externo</option>
+                        </optgroup>
+                    </select>
+                </label>
+                <button type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login-2" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
+                        <path d="M3 12h13l-3 -3" />
+                        <path d="M13 15l3 -3" />
+                    </svg>
+                    Iniciar sesión
+                </button>
+            </form>
+            <hr/>
+            <form>
+                <h2>Otros tipos de autenticación</h2>
+                <button>
+                    <!-- fingerprint -->
+                    <!--
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-fingerprint" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M18.9 7a8 8 0 0 1 1.1 5v1a6 6 0 0 0 .8 3" />
+                        <path d="M8 11a4 4 0 0 1 8 0v1a10 10 0 0 0 2 6" />
+                        <path d="M12 11v2a14 14 0 0 0 2.5 8" />
+                        <path d="M8 15a18 18 0 0 0 1.8 6" />
+                        <path d="M4.9 19a22 22 0 0 1 -.9 -7v-1a8 8 0 0 1 12 -6.95" />
+                    </svg>
+                    -->
+
+                    <!-- certificate -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-certificate" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M15 15m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                        <path d="M13 17.5v4.5l2 -1.5l2 1.5v-4.5" />
+                        <path d="M10 19h-5a2 2 0 0 1 -2 -2v-10c0 -1.1 .9 -2 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -1 1.73" />
+                        <path d="M6 9l12 0" />
+                        <path d="M6 12l3 0" />
+                        <path d="M6 15l2 0" />
+                    </svg>
+                    Certificado Digital
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <img class="logo" src="https://www.upv.es/perfiles/pas-pdi/imagenes/marca_UPV_principal_blanco150.png" />
+
+        <aside>
+            <span>
+                <i>
+                    <svg width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                        <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z" />
+                      </svg>
+                </i>
+                Camino de Vera, s/n
+            </span>
+            <span>
+                <i>
+                    <svg width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" />
+                      </svg>
+                </i>
+                +34 96 387 70 00
+            </span>
+            <span>
+                <i>
+                    <svg width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" />
+                        <path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" />
+                    </svg>
+                </i>
+                +34 620 04 00 50
+            </span>
+        </aside>
+        <nav class="lang-selector" aria-label="Selección de idioma">
+            <a href="" aria-label="Valencià">Va</a>
+            <a href="" aria-label="Castellano">Es</a>
+        </nav>
+    </footer>
+</body>
+</html>
