@@ -20,6 +20,9 @@
             --red: #E5554F;
             --red-dark: #D73333;
             --red-darkest: #A40E0E;
+            --yellow: #FFD100;
+            --yellow-dark: #FAA500;
+            --yellow-darkest: #92540C;
 
             --color-light: var(--grey-light);
             --color-dark: var(--red-darkest);
@@ -166,6 +169,25 @@
             text-align: center;
         }
 
+        .login-form h3 {
+            color: var(--black);
+            font-size: 14px;
+            text-align: center;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .login-form h3 hr {
+            flex-grow: 1;
+            height: 1px;
+            border: 0px;
+            background-color: var(--grey-medium);
+        }
+
         .login-form form {
             display: flex;
             flex-direction: column;
@@ -178,6 +200,7 @@
         .login-form label {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             gap: 5px;
             background-color: white;
             width: 100%;
@@ -188,6 +211,67 @@
             transition: all 200ms ease-in-out;
         }
 
+        .login-form fieldset {
+            display: flex;
+            align-items: center;
+            border: 0px;
+            width: 100%;
+            gap: 10px;
+        }
+
+        a {
+            font-size: 14px;
+            color: var(--red-darkest);
+            transition: all 50ms ease-in-out;
+        }
+
+        a:hover {
+            cursor: pointer;
+            transform: scale(1.02);
+        }
+
+        .login-form fieldset a {
+            text-decoration: none;
+            transition: all 200ms ease-in-out;
+            text-wrap: nowrap;
+            text-decoration: underline;
+        }
+
+        .login-form form button {
+            width: 100%;
+            padding: 5px 10px 5px 10px;
+            margin-top: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            border: 0;
+            background-color: var(--color-dark);
+            color: white;
+            box-shadow: 0px 0px 3px 0px var(--color-shadow);
+            transition: all 100ms ease-in-out;
+        }
+
+        .login-form form button:hover {
+            transform: scale(1.01);
+        }
+
+        .login-form form button:active {
+            transform: scale(0.99);
+        }
+
+        .login-form form button:focus {
+            outline: var(--focus-outline);
+        }
+
+        .login-form form button > svg {
+            width: 30px;
+            box-sizing: border-box;
+            stroke: white;
+        }
+
         .login-form label > button {
             background: var(--red-darkest);
             border-radius: 0px 6px 6px 0px;
@@ -196,6 +280,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            width: auto;
+            margin: 0px;
         }
 
         .login-form label > button:hover {
@@ -240,48 +326,33 @@
             stroke: var(--color-dark);
         }
 
-        .login-form form > button {
-            width: 100%;
-            padding: 5px 10px 5px 10px;
-            margin-top: 7px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 1.2em;
-            border-radius: 10px;
-            border: 0;
-            background-color: var(--color-dark);
-            color: white;
-            box-shadow: 0px 0px 3px 0px var(--color-shadow);
-            transition: all 100ms ease-in-out;
-        }
-
-        .login-form form > button:hover {
-            transform: scale(1.01);
-        }
-
-        .login-form form > button:active {
-            transform: scale(0.99);
-        }
-
-        .login-form form > button:focus {
-            outline: var(--focus-outline);
-        }
-
-        .login-form form > button > svg {
-            width: 30px;
-            box-sizing: border-box;
-            stroke: white;
-        }
-
-        .login-form > hr {
-            width: 90%;
-            height: 1px;
-            border: 0px;
-            background-color: var(--grey-UPV-light);
+        .login-form article {
+            color: var(--grey-dark);
+            font-size: 14px;
+            text-align: center;
             margin-top: 30px;
-            margin-bottom: 20px;
+            width: 90%;
+        }
+
+        .login-error {
+            color: var(--yellow-darkest);
+            background: var(--yellow);
+            border: 2px solid var(--yellow-darkest);
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            text-align: center;
+            border-radius: 7px;
+            margin: 0px;
+            opacity: 0;
+            pointer-events: none;
+            margin-top: -51px;
+            transition: all 100ms ease-out;
+        }
+
+        .login-error.visible {
+            opacity: 1;
+            margin-top: 0px;
         }
 
         /* Footer */
@@ -348,6 +419,11 @@
                 width: 80%;
             }
 
+            .login-form fieldset {
+                flex-direction: column;
+                gap: 10px;
+            }
+
             header > .header-title > h1 {
                 font-size: 14px;
             }
@@ -364,6 +440,10 @@
             footer aside > span > i > svg {
                 width: 15px;
             }
+
+            hr {
+                display: none;
+            }
         }
     </style>
 
@@ -372,6 +452,11 @@
             document.querySelectorAll('input.login-password').forEach(input => {
                 input.type = input.type === 'password' ? 'text' : 'password';
             });
+        }
+
+        function fakeSubmit(e) {
+            document.querySelector('.login-error').classList.add('visible');
+            e.preventDefault();
         }
     </script>
 </head>
@@ -395,8 +480,12 @@
     </header>
     <main>
         <section class="login-form">
-            <form>
-                <h2>Introduzca su DNI/ID y clave</h2>
+            <header>
+                <h2>Nombre del servicio</h2>    
+            </header>
+
+            <h3>Introduzca su DNI/ID y clave</h3>
+            <form onsubmit="fakeSubmit(event)">
                 <label>
                     <svg width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -431,43 +520,36 @@
                         <path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
                         <path d="M3 13v-1a2 2 0 0 1 2 -2h2" />
                     </svg>
-                    <select aria-placeholder="Colectivo" autocomplete="organization-title" required>
-                        <option value="0">Tipo de autenticación*</option>
-                        <hr/>
-                        <optgroup>
-                            <option value="1">Alumno</option>
-                            <option value="2">Personal</option>
-                            <option value="3">Externo</option>
-                        </optgroup>
+                    <select aria-placeholder="Colectivo" autocomplete="organization-title" required >
+                        <option value="" selected disabled hidden>Tipo de autenticación*</option>
+                        <option value="1">Alumno</option>
+                        <option value="2">Personal</option>
+                        <option value="3">Externo</option>
                     </select>
                 </label>
-                <button type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login-2" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
-                        <path d="M3 12h13l-3 -3" />
-                        <path d="M13 15l3 -3" />
-                    </svg>
-                    Iniciar sesión
-                </button>
+                <p class="login-error">
+                    Credenciales inválidas
+                </p>
+                <fieldset>
+                    <button type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login-2" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
+                            <path d="M3 12h13l-3 -3" />
+                            <path d="M13 15l3 -3" />
+                        </svg>
+                        Iniciar sesión
+                    </button>
+                    <a href="#">¿Has olvidado tu clave?</a>
+                </fieldset>
             </form>
-            <hr/>
+            <h3>
+                <hr/>
+                Otros métodos de autenticación
+                <hr/>
+            </h3>
             <form>
-                <h2>Otros tipos de autenticación</h2>
                 <button>
-                    <!-- fingerprint -->
-                    <!--
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-fingerprint" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M18.9 7a8 8 0 0 1 1.1 5v1a6 6 0 0 0 .8 3" />
-                        <path d="M8 11a4 4 0 0 1 8 0v1a10 10 0 0 0 2 6" />
-                        <path d="M12 11v2a14 14 0 0 0 2.5 8" />
-                        <path d="M8 15a18 18 0 0 0 1.8 6" />
-                        <path d="M4.9 19a22 22 0 0 1 -.9 -7v-1a8 8 0 0 1 12 -6.95" />
-                    </svg>
-                    -->
-
-                    <!-- certificate -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-certificate" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <path d="M15 15m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
@@ -480,6 +562,10 @@
                     Certificado Digital
                 </button>
             </form>
+    
+            <article>
+                Por razones de seguridad, ¡por favor cierre su sesión y su navegador web cuando haya terminado de acceder a los servicios que requieren autenticación!
+            </article>
         </section>
     </main>
 
