@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tabs</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:wght@500&display=swap');
@@ -67,94 +67,28 @@
             font-weight: 500;
         }
 
-        main {
-            margin-top: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        main:has(form.login-form) {
-            display: grid;
-            place-items: center;
-        }
-
-        /* Cabecera */
-        header {
-            display: flex;
-            flex-direction: column;
-        }
-
-        header > .header-title {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 20px;
-            padding: 20px;
-        }
-
-        header > .header-title i.logo {
-            display: block;
-            width: 170px;
-            height: 52px;
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-            background-image: url(https://www.upv.es/imagenes/svg/logo-upv.svg);
-        }
-
-        header > .header-title i.logo-mobile {
+        .tab-navigator {
             display: none;
         }
 
-        header > .header-title > h1 {
-            font-family: "Inter", sans-serif;
-            font-weight: 700;
-            font-size: 20px;
-            color: var(--black);
+        nav.tab-navigator > label.active {
+            background-color: var(--red)
         }
-
-        header > .header-title > div.slash {
-            display: block;
-            width: 2px;
-            height: 60px;
-            background-color: var(--grey-medium);
-            transform: rotate(30deg);
-            margin-left: 30px;
-            margin-right: 30px;
-        }
-
-        nav.lang-selector {
+        
+        .tab-view {
             display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            background-color: var(--grey-UPV-dark);
-            padding: 4px;
         }
 
-        nav.lang-selector > a {
-            font-size: 1.2em;
-            text-decoration: none;
-            color: var(--grey-medium);
-            transition: all 200ms ease-in-out;
-            text-transform: uppercase;
-            font-size: 0.7em;
+        .tab-view:has(input[type="radio"]:checked) {
+            display: grid;
         }
 
-        header > a {
-            margin: 20px;
-        }
-
-        header > nav.breadcrumbs {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            padding: 4px;
-            background-color: var(--grey-medium);
+        input[type="radio"].input-tab-selector {
+            display: none;
         }
 
         /* Formulario */
         .login-form {
-            display: grid;
             place-items: center;
             width: 500px;
             padding: 40px;
@@ -356,137 +290,62 @@
             margin-top: 0px;
         }
 
-        /* Footer */
-        footer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: var(--grey-UPV-dark);
-        }
-
-        footer > .logo {
-            display: block;
-            width: 150px;
-            margin: 20px;
-        }
-
-        footer a,p,h1,h2,h3,h4,h5 {
-            color: white;
-        }
-
-        footer i > svg {
-            stroke: var(--red-dark);
-            width: 22px
-        }
-
-        footer aside {
-            display: flex;
-            gap: 30px;
-        }
-
-        footer aside > span {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: var(--white);
-        }
-
         @media (max-width: 600px) {
-            header > .header-title i.logo {
-                display: none;
-            }
-
-            header > .header-title i.logo-mobile {
-                display: block;
-                width: 100px;
-            }
-
-            header > .header-title > div.slash {
-                display: none;
-            }
-
-            main {
-                width: 100%;
-            }
-
-            section.login-form {
-                width: 100%;
-                border-radius: 0px;
-            }
-            
-            form {
-                width: 80%;
-            }
-
-            .login-form fieldset {
-                flex-direction: column;
+            .tab-navigator {
+                display: flex;
                 gap: 10px;
+                justify-content: center;
+                margin-top: 20px;
             }
 
-            header > .header-title > h1 {
-                font-size: 14px;
+            .tab-navigator label {
+                padding: 10px;
+                
             }
 
-            footer aside {
-                flex-direction: column;
-                gap: 0px;
-            }
-            footer aside > span {
-                font-size: 10px;
-                gap: 2px;
-            }
-
-            footer aside > span > i > svg {
-                width: 15px;
-            }
-
-            hr {
+            .tab-view {
                 display: none;
             }
         }
     </style>
-
-    <script>
-        function passwordToggleReveal() {
-            document.querySelectorAll('input.login-password').forEach(input => {
-                input.type = input.type === 'password' ? 'text' : 'password';
-            });
-        }
-
-        function fakeSubmit(e) {
-            document.querySelector('.login-error').classList.add('visible');
-            e.preventDefault();
-        }
-    </script>
 </head>
 <body>
-    <header>
-        <nav class="lang-selector" aria-label="Selección de idioma">
-            <a href="" aria-label="Valencià">Va</a>
-            <a href="" aria-label="Castellano">Es</a>
-        </nav>
-        <div class="header-title">
-            <a href="https://www.upv.es" alt="Página principal de la Universitat Politècnica de València">
-                <i class="logo"></i>
-                <i class="logo-mobile">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 812.37 285.47"><defs><style>.cls-1{fill:#cc5450;}</style></defs><g id="Capa_2" data-name="Capa 2"><g id="Capa_1-2" data-name="Capa 1"><path class="cls-1" d="M63.37,285.47H192c12.48-5,23.16-11.68,31.79-20.24Q255,234.27,255,167V0H179.33V156.67c0,8.43-.34,17-1,25.82a67.52,67.52,0,0,1-6,23.89A41.85,41.85,0,0,1,157,223.77q-10.29,6.66-29.3,6.68t-29.49-6.68a39.88,39.88,0,0,1-15.35-17.39,70.09,70.09,0,0,1-5.8-23.89c-.68-8.8-1-17.39-1-25.82V0H0V167q0,67.28,31.42,98.22C40.12,273.79,50.84,280.47,63.37,285.47Z"/><path class="cls-1" d="M379.28,285.47V192.61h45q49.29,0,75.5-25.23T526,96.32q0-45.9-26.2-71.09T424.31,0H303.2V285.47Zm0-225.09h25.24q41.91,0,41.92,35.94t-41.92,35.9H379.28Z"/><polygon class="cls-1" points="715.22 285.47 812.37 58.66 812.37 0 754.82 0 683.79 175.4 613.13 0 530.46 0 652.36 285.47 715.22 285.47"/></g></g></svg>
-                </i>
-            </a>
-            <div class="slash"></div>
-            <h1>Iniciar sesión</h1>
-        </div>
-        <nav class="breadcrumbs" aria-label="navegador"></nav>
-    </header>
     <main>
-        <section class="login-form">
-            <header>
-                <h2>Nombre del servicio</h2>    
-            </header>
+        <header>
+            <nav class="tab-navigator">
+                <label for="authTypeAlumno">Alumno</label>
+                <label for="authTypePersonal">Personal</label>
+                <label for="authTypeExterno">Externo</label>
+            </nav>
+            <script type="module">
+                document.querySelectorAll('.input-tab-selector').forEach((radioButton) => {
+                    const updateTabs = () => {
+                        document.querySelectorAll('nav.tab-navigator > label').forEach((view) => {
+                            const id = radioButton.id;
+                            if (view.getAttribute("for") === id) {
+                                view.classList.add('active');
+                            }
+                            else {
+                                view.classList.remove('active');
+                            }
+                        });
+                    }
+                    radioButton.addEventListener('change', (e) => {
+                        updateTabs();
+                    });
+                    if (radioButton.checked) {
+                        updateTabs();
+                    }
+                });
+                
+            </script>
+        </header>
 
-            <h3>Introduzca su DNI/ID y clave</h3>
-            <form onsubmit="fakeSubmit(event)">
+        <section class="login-form tab-view">
+            <input id="authTypeAlumno" class="input-tab-selector" type="radio" name="authType" checked/>
+            <form>
+                <h2>Alumno</h2>
+                <input type="hidden" name="authType" value="personal" />
                 <label>
                     <svg width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -511,22 +370,51 @@
                         </svg>
                     </button>
                 </label>
+                <p class="login-error">
+                    Credenciales inválidas
+                </p>
+                <fieldset>
+                    <button type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login-2" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
+                            <path d="M3 12h13l-3 -3" />
+                            <path d="M13 15l3 -3" />
+                        </svg>
+                        Iniciar sesión
+                    </button>
+                    <a href="#">¿Has olvidado tu clave?</a>
+                </fieldset>
+            </form>
+        </section>
+        <section class="login-form tab-view">
+            <input id="authTypePersonal" class="input-tab-selector" type="radio" name="authType" />
+            <form >
+                <h2>Personal</h2>
+                <input type="hidden" name="authType" value="personal" />
                 <label>
                     <svg width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                        <path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1" />
-                        <path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                        <path d="M17 10h2a2 2 0 0 1 2 2v1" />
-                        <path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                        <path d="M3 13v-1a2 2 0 0 1 2 -2h2" />
+                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
                     </svg>
-                    <select aria-placeholder="Colectivo" autocomplete="organization-title" required >
-                        <option value="" selected disabled hidden>Tipo de autenticación*</option>
-                        <option value="1">Alumno</option>
-                        <option value="2">Personal</option>
-                        <option value="3">Externo</option>
-                    </select>
+                    <input type="text" name="username" placeholder="DNI / ID*" autocomplete="username" required>
+                </label>
+                <label>
+                    <svg width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z" />
+                        <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" />
+                        <path d="M8 11v-4a4 4 0 1 1 8 0v4" />
+                    </svg>
+                    <input class="login-password" type="password" name="password" placeholder="PIN/Clave*" autocomplete="current-password" required>
+                    <button type="button" onclick="passwordToggleReveal()">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                            <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                        </svg>
+                    </button>
                 </label>
                 <p class="login-error">
                     Credenciales inválidas
@@ -544,70 +432,54 @@
                     <a href="#">¿Has olvidado tu clave?</a>
                 </fieldset>
             </form>
-            <h3>
-                <hr/>
-                Otros métodos de autenticación
-                <hr/>
-            </h3>
-            <form action="https://www.google.es" method="get">
-                <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-certificate" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        </section>
+        <section class="login-form tab-view">
+            <input id="authTypeExterno" class="input-tab-selector" type="radio" name="authType" />
+            <form >
+                <h2>Externo</h2>
+                <input type="hidden" name="authType" value="externo" />
+                <label>
+                    <svg width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M15 15m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                        <path d="M13 17.5v4.5l2 -1.5l2 1.5v-4.5" />
-                        <path d="M10 19h-5a2 2 0 0 1 -2 -2v-10c0 -1.1 .9 -2 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -1 1.73" />
-                        <path d="M6 9l12 0" />
-                        <path d="M6 12l3 0" />
-                        <path d="M6 15l2 0" />
+                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
                     </svg>
-                    Certificado Digital
-                </button>
+                    <input type="text" name="username" placeholder="DNI / ID*" autocomplete="username" required>
+                </label>
+                <label>
+                    <svg width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z" />
+                        <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" />
+                        <path d="M8 11v-4a4 4 0 1 1 8 0v4" />
+                    </svg>
+                    <input class="login-password" type="password" name="password" placeholder="PIN/Clave*" autocomplete="current-password" required>
+                    <button type="button" onclick="passwordToggleReveal()">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                            <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                        </svg>
+                    </button>
+                </label>
+
+                <p class="login-error">
+                    Credenciales inválidas
+                </p>
+                <fieldset>
+                    <button type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login-2" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
+                            <path d="M3 12h13l-3 -3" />
+                            <path d="M13 15l3 -3" />
+                        </svg>
+                        Iniciar sesión
+                    </button>
+                    <a href="#">¿Has olvidado tu clave?</a>
+                </fieldset>
             </form>
-    
-            <article>
-                Por razones de seguridad, ¡por favor cierre su sesión y su navegador web cuando haya terminado de acceder a los servicios que requieren autenticación!
-            </article>
         </section>
     </main>
-
-    <footer>
-        <img class="logo" src="https://www.upv.es/perfiles/pas-pdi/imagenes/marca_UPV_principal_blanco150.png" />
-
-        <aside>
-            <span>
-                <i>
-                    <svg width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
-                        <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z" />
-                      </svg>
-                </i>
-                Camino de Vera, s/n
-            </span>
-            <span>
-                <i>
-                    <svg width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" />
-                      </svg>
-                </i>
-                +34 96 387 70 00
-            </span>
-            <span>
-                <i>
-                    <svg width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" />
-                        <path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" />
-                    </svg>
-                </i>
-                +34 620 04 00 50
-            </span>
-        </aside>
-        <nav class="lang-selector" aria-label="Selección de idioma">
-            <a href="" aria-label="Valencià">Va</a>
-            <a href="" aria-label="Castellano">Es</a>
-        </nav>
-    </footer>
 </body>
 </html>
